@@ -22,7 +22,7 @@ func NewCrawlerService(storage storage.Storage) *CrawlerService {
 }
 
 // StartCrawl starts a new crawling task
-func (s *CrawlerService) StartCrawl(startURL string, concurrentRequests, maxDepth int, timeout time.Duration) (string, error) {
+func (s *CrawlerService) StartCrawl(startURL string, concurrentRequests, maxDepth int, timeout time.Duration, useRandomUserAgent bool) (string, error) {
 	// Create task ID
 	taskID := uuid.New().String()
 
@@ -50,13 +50,13 @@ func (s *CrawlerService) StartCrawl(startURL string, concurrentRequests, maxDept
 	}
 
 	// Start crawling in a goroutine
-	go s.doCrawl(taskID, startURL, concurrentRequests, maxDepth, timeout)
+	go s.doCrawl(taskID, startURL, concurrentRequests, maxDepth, timeout, useRandomUserAgent)
 
 	return taskID, nil
 }
 
 // doCrawl performs the actual crawling
-func (s *CrawlerService) doCrawl(taskID, startURL string, concurrentRequests, maxDepth int, timeout time.Duration) {
+func (s *CrawlerService) doCrawl(taskID, startURL string, concurrentRequests, maxDepth int, timeout time.Duration, useRandomUserAgent bool) {
 	// Update task status
 	err := s.storage.UpdateTaskStatus(taskID, "in_progress")
 	if err != nil {
@@ -70,6 +70,7 @@ func (s *CrawlerService) doCrawl(taskID, startURL string, concurrentRequests, ma
 		ConcurrentRequests: concurrentRequests,
 		MaxDepth:           maxDepth,
 		Timeout:            timeout,
+		UseRandomUserAgent: useRandomUserAgent,
 	}
 
 	c, err := crawler.NewCrawler(crawlerConfig)

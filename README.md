@@ -9,6 +9,7 @@ A high-performance web crawler service that allows you to crawl websites and ext
 - Configurable crawling parameters (depth, timeout, concurrency)
 - Domain-restricted crawling
 - In-memory storage of crawl results
+- Built-in Random User-Agent rotation with support for multiple browser types (Chrome, Firefox, Safari, Edge, Opera) and mobile devices
 
 ## Tech Stack
 
@@ -82,6 +83,19 @@ crawler:
   default_concurrent_requests: 10
   default_timeout: 30s
   default_max_depth: 5
+  random_user_agent: true
+  user_agents:
+    # Chrome
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    # Firefox
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0"
+    # Safari
+    - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15"
+    # Edge
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59"
+    # Mobile
+    - "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1"
+    # ...and many more
 ```
 
 ### Environment Variables
@@ -92,6 +106,7 @@ crawler:
 - `CRAWLER_CONCURRENT_REQUESTS`: Default number of concurrent requests
 - `CRAWLER_TIMEOUT`: Default timeout for crawling requests
 - `CRAWLER_MAX_DEPTH`: Default maximum depth for crawling
+- `CRAWLER_RANDOM_USER_AGENT`: Enable/disable random user agent (true/false)
 
 ## API Reference
 

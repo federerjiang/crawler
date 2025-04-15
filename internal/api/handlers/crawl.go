@@ -55,8 +55,11 @@ func (h *CrawlHandler) StartCrawl(c *gin.Context) {
 		timeout = h.config.Crawler.DefaultTimeout
 	}
 
+	// 始终启用随机用户代理
+	useRandomUserAgent := true
+
 	// Start crawling
-	taskID, err := h.crawlerService.StartCrawl(request.StartURL, concurrentRequests, maxDepth, timeout)
+	taskID, err := h.crawlerService.StartCrawl(request.StartURL, concurrentRequests, maxDepth, timeout, useRandomUserAgent)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{
 			Code:    http.StatusInternalServerError,
