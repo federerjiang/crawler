@@ -1,0 +1,8 @@
+server:
+  port: 8080
+  timeout: 30s
+
+crawler:
+  default_concurrent_requests: 10
+  default_timeout: 30s
+  default_max_depth: 5 
